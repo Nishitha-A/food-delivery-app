@@ -24,22 +24,23 @@ const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/order');
 
 
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/foods', foodRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 
+// Static serving
 const path = require("path");
 
-// Serve frontend build
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-// For any route not starting with /api, serve React app
-app.get("/*", (req, res) => {
+app.use((req, res, next) => {
     if (!req.originalUrl.startsWith("/api")) {
-        res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+        return res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
     }
+    next();
 });
 
 app.get('/', (req, res) => {
