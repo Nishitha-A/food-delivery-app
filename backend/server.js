@@ -36,7 +36,7 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 // For any route not starting with /api, serve React app
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
     if (!req.originalUrl.startsWith("/api")) {
         res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
     }
